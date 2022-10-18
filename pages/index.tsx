@@ -1,8 +1,10 @@
 import type { NextPage } from 'next';
 
-import { Container, Typography } from '@mui/material';
+import { Container, Grid, Typography } from '@mui/material';
 
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
+
+import { DeviceList } from '../components/device';
 
 
 // The Hub Calgary
@@ -35,27 +37,35 @@ const HomePage: NextPage = () => {
   // If loaded...
   return (
     /* TODO: Style section of map visualization */
-    <Container sx={{ width: '100vw', height: '100vh' }}>
+    <Grid container direction='row' justifyContent='flex-start'>
 
-      {/* Google Maps */}
-      <GoogleMap
-        center={ markers[0] }
-        zoom={ 15 }
-        mapContainerStyle={{ width: '100%', height: '100%' }}>
+      <Grid item sm={2}>
+        <DeviceList />
+      </Grid>
 
-        {/* TODO: Display markers */}
+      <Grid item sm={10} sx={{ width: '100vw', height: '100vh' }}>
 
-        {
-          markers.map((pointOfInterest, idx) => (
-            <Marker position={ pointOfInterest } key={ idx } />
-          ))
-        }
+        <GoogleMap
+          center={ markers[0] }
+          zoom={ 15 }
+          mapContainerStyle={{ width: '100%', height: '100%' }}>
 
-        {/* TODO: Display route */}
+          {/* TODO: Display markers */}
 
-      </GoogleMap>
+          {
+            markers.map((pointOfInterest, idx) => (
+              <Marker position={ pointOfInterest } key={ idx } />
+            ))
+          }
 
-    </Container>
+          {/* TODO: Display route */}
+
+
+        </GoogleMap>
+
+      </Grid>
+
+    </Grid>
   );
 }
 
