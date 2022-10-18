@@ -39,11 +39,11 @@ const HomePage: NextPage = () => {
     /* TODO: Style section of map visualization */
     <Grid container direction='row' justifyContent='flex-start'>
 
-      <Grid item sm={2}>
+      <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
         <DeviceList />
       </Grid>
 
-      <Grid item sm={10} sx={{ width: '100vw', height: '100vh' }}>
+      <Grid item sm={10} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
 
         <GoogleMap
           center={ markers[0] }
