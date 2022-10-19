@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
 
-import { Container, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
 
 import { DeviceList } from '../components/device';
+import { useSensors } from '../hooks';
 
 
 // The Hub Calgary
@@ -29,6 +30,9 @@ const HomePage: NextPage = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
   });
+
+  // Values extracted from websocket custom hook useSensors
+  const { coordinates, fillLevel, sensors } = useSensors('ws://localhost:8080');
 
   // If cannot be loaded, display a custom message
   if (!isLoaded)

@@ -1,5 +1,6 @@
-import { Box, Card, CardContent, Divider, Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import React from 'react';
+
+import { Box, Divider, List, ListItem, Paper, Typography } from '@mui/material';
 
 
 const devices = [
@@ -39,7 +40,7 @@ const devices = [
     unit: "ppm",
   },
   {
-    type: "Sensor 7",
+    type: "Sensor 8",
     value: 789.123,
     unit: "ppm",
   },
