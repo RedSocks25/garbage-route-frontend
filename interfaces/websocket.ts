@@ -1,10 +1,11 @@
-export interface Coordinate {
-  lat: number;
-  lng: number;
+export interface Container {
+  coordinates: Coordinates;
+  fillLevel: string;
 }
 
-export interface FillLevel {
-  level: string;
+export interface Coordinates {
+  lat: number;
+  lng: number;
 }
 
 export interface Sensor {
@@ -17,7 +18,6 @@ export interface WebsocketEvent {
   event: string,
   data: {
     sensors: Sensor[],
-    fillLevel: FillLevel[],
-    coordinates: Coordinate[],
+    containers: Container[],
   }
 }

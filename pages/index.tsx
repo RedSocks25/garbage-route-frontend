@@ -9,18 +9,18 @@ import { useSensors } from '../hooks';
 const HomePage: NextPage = () => {
 
   // Values extracted from websocket custom hook useSensors
-  const { coordinates, fillLevel, sensors } = useSensors('ws://localhost:8080');
+  const { containers, sensors } = useSensors('ws://localhost:8080');
 
   return (
     /* TODO: Style section of map visualization */
     <Grid container direction='row' justifyContent='flex-start'>
 
       <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
-        <DeviceList />
+        <DeviceList devices={ sensors } />
       </Grid>
 
       <Grid item sm={10} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
-        <Map />
+        <Map containers={ containers } />
       </Grid>
 
     </Grid>

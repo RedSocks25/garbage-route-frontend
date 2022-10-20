@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Box, Divider, List, ListItem, Paper, Typography } from '@mui/material';
 
+import { Sensor } from '../../interfaces';
 
-const devices = [
+
+/* const devices = [
   {
     type: "Sensor 1",
     value: 123.456,
@@ -44,9 +46,17 @@ const devices = [
     value: 789.123,
     unit: "ppm",
   },
-];
+]; */
 
-export const DeviceList = () => {
+
+interface Props {
+  devices: Sensor[];
+}
+
+export const DeviceList: FC<Props> = ({ devices }) => {
+
+  if (!devices) return <Typography>Getting data</Typography>
+
   return (
     <Box sx={{ flexDirection: 'column', backgroundColor: '#F0F0F0', height: '100%' }}>
 

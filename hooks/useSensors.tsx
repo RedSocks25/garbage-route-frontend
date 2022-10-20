@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { WebsocketEvent, Sensor, FillLevel, Coordinate } from "../interfaces";
+import { WebsocketEvent, Sensor } from "../interfaces";
+import { Container } from '../interfaces/websocket';
 
 
 export const useSensors = (url: string) => {
@@ -10,8 +11,7 @@ export const useSensors = (url: string) => {
 
   // Store all the values from websocket separately
   const [sensors, setSensors] = useState<Sensor[]>([]);
-  const [fillLevel, setFillLevel] = useState<FillLevel[]>([]);
-  const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+  const [containers, setContainers] = useState<Container[]>([]);
 
   useEffect(() => {
     // Create websocket instance pointing to the ws url
@@ -24,25 +24,26 @@ export const useSensors = (url: string) => {
         data: 1,
       }));
     }
-
+    
     // Reaction to any entering message
     socket.onmessage = (e: MessageEvent) => {
+
+      console.log(e.data);
+
       const { data, event } = JSON.parse(e.data) as WebsocketEvent;
 
       // Filter the event type stored inside the 'event' attr of the ws response
       if (event !== 'message') return;
 
       // Stores last data readed from ws
-      setCoordinates(data.coordinates);
-      setFillLevel(data.fillLevel);
+      setContainers(data.containers);
       setSensors(data.sensors);
     }
 
   }, [socket]);
 
   return {
-    coordinates,
-    fillLevel,
+    containers,
     sensors,
   }
 }
