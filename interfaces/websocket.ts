@@ -1,5 +1,6 @@
 export interface Container {
-  coordinates: Coordinates;
+  lat: number;
+  lng: number;
   fillLevel: string;
 }
 
