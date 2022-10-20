@@ -1,77 +1,38 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { Box, Divider, List, ListItem, Paper, Typography } from '@mui/material';
+import { Box, List, ListItem } from '@mui/material';
 
 import { Sensor } from '../../interfaces';
-
-
-/* const devices = [
-  {
-    type: "Sensor 1",
-    value: 123.456,
-    unit: "pH",
-  },
-  {
-    type: "Sensor 2",
-    value: 456.789,
-    unit: "HR",
-  },
-  {
-    type: "Sensor 3",
-    value: 789.123,
-    unit: "ppm",
-  },
-  {
-    type: "Sensor 4",
-    value: 123.456,
-    unit: "pH",
-  },
-  {
-    type: "Sensor 5",
-    value: 456.789,
-    unit: "HR",
-  },
-  {
-    type: "Sensor 6",
-    value: 789.123,
-    unit: "ppm",
-  },
-  {
-    type: "Sensor 7",
-    value: 789.123,
-    unit: "ppm",
-  },
-  {
-    type: "Sensor 8",
-    value: 789.123,
-    unit: "ppm",
-  },
-]; */
+import { DeviceCard, SkeletonCard } from './';
+import { colors } from '../../utils';
 
 
 interface Props {
   devices: Sensor[];
 }
 
-export const DeviceList: FC<Props> = ({ devices }) => {
-
-  if (!devices) return <Typography>Getting data</Typography>
+export const DeviceList: FC<Props> = ({ devices = [] }) => {
 
   return (
-    <Box sx={{ flexDirection: 'column', backgroundColor: '#F0F0F0', height: '100%' }}>
+    <Box sx={{ flexDirection: 'column', backgroundColor: '#353535', height: '100%' }}>
 
       <List sx={{ overflow: 'auto', height: '100%' }}>
         {
-          devices.map(({ type, value, unit }) => (
-            <ListItem key={ type }>
-              <Paper elevation={ 0 } sx={{ padding: 2, width: '100%', paddingY: 1, margin: 0, borderRadius: 1 }}>
-                <Typography variant='subtitle1'>{ type }</Typography>
-                <Divider />
-                <Typography variant='h6'>{ `${ value } ${ unit }` }</Typography>
-              </Paper>
-            </ListItem>
-          ))
+          devices.length !== 0 ? (
+            devices.map(( sensor, idx ) => (
+              <ListItem key={ idx }>
+                <DeviceCard sensor={ sensor } color={ colors[idx] } />
+              </ListItem>
+            ))
+          ) : (
+            [...Array(7)].map((idx) => (
+              <ListItem key={ idx }>
+                <SkeletonCard />
+              </ListItem>
+            ))
+          )
         }
+
       </List>
 
     </Box>
