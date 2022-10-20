@@ -8,7 +8,7 @@ export const Header = () => {
     <AppBar position='static' elevation={ 0 } sx={{ maxHeight: '60px', backgroundColor: '#1e1e1e' }}>
       <Toolbar>
         <Box>
-          <Typography variant='h6'>Dashboard</Typography>
+          <Typography variant='h5'>Dashboard</Typography>
         </Box>
       </Toolbar>
     </AppBar>
