@@ -17,7 +17,7 @@ const HomePage: NextPage = () => {
   const { containersData, sensorsData, isConnected } = useSensors(process.env.NEXT_PUBLIC_WS_URL!);
 
   const [sensors, setSensors] = useState<Sensor[]>([]);
-  const [containers, setContainers] = useState<Container[]>(defaultContainers);
+  const [containers, setContainers] = useState<Container[]>([]);
 
   // When is connected get the last data from the database
   useEffect(() => {
@@ -28,6 +28,7 @@ const HomePage: NextPage = () => {
       try {
         const { data } = await garbageApi.get<GarbageData>('sensor');
         setSensors(data.sensors);
+        setContainers(data.containers);
 
       } catch (error) {
         console.error('Failed to gather data: ', error);
