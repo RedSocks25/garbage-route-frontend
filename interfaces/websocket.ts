@@ -15,6 +15,7 @@ export interface Sensor {
   unit: string;
 }
 
+// Structure of the websocket message
 export interface WebsocketEvent {
   event: string,
   data: {
@@ -23,6 +24,7 @@ export interface WebsocketEvent {
   }
 }
 
+// Stores the data gathered from the API call
 export interface GarbageData {
   sensors: Sensor[],
   containers: Container[],

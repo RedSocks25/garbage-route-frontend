@@ -8,6 +8,7 @@ import { DeviceList, Map } from '../components/device';
 import { useSensors } from '../hooks';
 import { garbageApi } from '../apis';
 import { Container, GarbageData, Sensor } from '../interfaces';
+import { defaultContainers } from '../utils';
 
 
 const HomePage: NextPage = () => {
@@ -16,16 +17,16 @@ const HomePage: NextPage = () => {
   const { containersData, sensorsData, isConnected } = useSensors(process.env.NEXT_PUBLIC_WS_URL!);
 
   const [sensors, setSensors] = useState<Sensor[]>([]);
-  const [containers, setContainers] = useState<Container[]>([]);
+  const [containers, setContainers] = useState<Container[]>(defaultContainers);
 
+  // When is connected get the last data from the database
   useEffect(() => {
     if (!isConnected) return;
 
-    // TODO: Create get api call
+    // Gather data
     const fecthInitialData = async() => {
       try {
         const { data } = await garbageApi.get<GarbageData>('sensor');
-
         setSensors(data.sensors);
 
       } catch (error) {
@@ -44,13 +45,14 @@ const HomePage: NextPage = () => {
   }, [containersData, sensorsData]);
 
   return (
-    /* TODO: Style section of map visualization */
     <Grid container direction='row' justifyContent='flex-start'>
 
+      {/* Devices list section */}
       <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
         <DeviceList devices={ sensors } />
       </Grid>
 
+      {/* Map section */}
       <Grid item sm={10} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
         <Map containers={ containers } />
       </Grid>

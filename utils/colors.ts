@@ -1,4 +1,5 @@
 
+// Colors used for the cards
 export const colors: string[] = [
   '9fcc2e',
   '235789',
