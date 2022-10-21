@@ -22,3 +22,8 @@ export interface WebsocketEvent {
     containers: Container[],
   }
 }
+
+export interface GarbageData {
+  sensors: Sensor[],
+  containers: Container[],
+}

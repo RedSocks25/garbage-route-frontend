@@ -4,7 +4,7 @@ export const calculateRoute = async(containers: Container[], truck: Coordinates)
 
   // Getting just the full containers coordinates
   let fullContainers: Container[] = containers.filter((container) => {
-    if (container.fillLevel === 'rojo') return container;
+    if (container.fillLevel === 'Rojo') return container;
   });
 
   // If we have no full containers, then we dont make a route planification

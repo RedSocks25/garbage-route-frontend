@@ -49,7 +49,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
       >
         {
           containers.length !== 0 && containers.map(({ fillLevel, lat, lng }, idx) => (
-            <MarkerF position={{lat, lng}} key={ idx } icon={ fillLevel === 'rojo' ? `${ iconsRoute }/red-dot.png` : `${ iconsRoute }/green-dot.png` } />
+            <MarkerF position={{lat, lng}} key={ idx } icon={ fillLevel === 'Rojo' ? `${ iconsRoute }/red-dot.png` : `${ iconsRoute }/green-dot.png` } />
           ))
         }
         <MarkerF position={ truck } icon={`${ iconsRoute }/truck.png`} />

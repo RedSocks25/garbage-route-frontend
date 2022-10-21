@@ -10,8 +10,9 @@ export const useSensors = (url: string) => {
   const [socket, setSocket] = useState<WebSocket | undefined>(undefined);
 
   // Store all the values from websocket separately
-  const [sensors, setSensors] = useState<Sensor[]>([]);
-  const [containers, setContainers] = useState<Container[]>([]);
+  const [sensorsData, setSensorsData] = useState<Sensor[]>([]);
+  const [containersData, setContainersData] = useState<Container[]>([]);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     // Create websocket instance pointing to the ws url
@@ -19,31 +20,42 @@ export const useSensors = (url: string) => {
 
     // Hand shake on open
     socket.onopen = () => {
-      socket.send(JSON.stringify({
-        event: 'message',
-        data: 1,
-      }));
+      try {
+        socket.send(JSON.stringify({
+          event: 'message',
+          data: 1,
+        }));
+
+        // State change to connected
+        setIsConnected(true);
+
+      } catch (error) {
+        console.error('Error connecting to the database: ', error);
+        
+        // If cannot connect return the socket to disconnected state
+        return setSocket(undefined);
+      }
     }
     
     // Reaction to any entering message
     socket.onmessage = (e: MessageEvent) => {
 
-      console.log(e.data);
-
+      // Get data from the websocket response
       const { data, event } = JSON.parse(e.data) as WebsocketEvent;
 
       // Filter the event type stored inside the 'event' attr of the ws response
       if (event !== 'message') return;
 
       // Stores last data readed from ws
-      setContainers(data.containers);
-      setSensors(data.sensors);
+      setContainersData(data.containers);
+      setSensorsData(data.sensors);
     }
 
   }, [socket]);
 
   return {
-    containers,
-    sensors,
+    containersData,
+    sensorsData,
+    isConnected,
   }
 }
