@@ -29,3 +29,5 @@ export const defaultContainers: Container[] = [
     fillLevel: 'Verde',
   }
 ]
+
+export const PING_PONG_INTERVAL: number = 30000; // 30 segs

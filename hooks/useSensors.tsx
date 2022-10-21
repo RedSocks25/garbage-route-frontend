@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { WebsocketEvent, Sensor } from "../interfaces";
 import { Container } from '../interfaces/websocket';
+import { PING_PONG_INTERVAL } from "../utils";
 
 
 export const useSensors = (url: string) => {
@@ -14,7 +15,9 @@ export const useSensors = (url: string) => {
   const [containersData, setContainersData] = useState<Container[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
+
   useEffect(() => {
+
     // Create websocket instance pointing to the ws url
     if (!socket) return setSocket(new WebSocket(url));
 
@@ -33,6 +36,8 @@ export const useSensors = (url: string) => {
 
       // Listen to any message events
       socket.onmessage = (e: MessageEvent) => {
+
+        // console.log(e);
 
         // Get data from the websocket response
         const { data, event } = JSON.parse(e.data) as WebsocketEvent;
@@ -53,6 +58,28 @@ export const useSensors = (url: string) => {
     }
 
   }, [socket, isConnected]);
+
+
+  // Ping Pong logic to stay connected to the Websocket
+  useEffect(() => {
+    // console.log('Entrando a logica ping pong');
+    
+    if (!isConnected) return;
+
+    // console.log('Tenemos websocket intanciado');
+
+    const interval = setInterval(() => {
+      // console.log('sending pong message');
+      
+      socket!.send(JSON.stringify({
+        event: 'ping',
+        data: 'true',
+      }));
+    }, PING_PONG_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [isConnected]);
+
 
   return {
     containersData,
