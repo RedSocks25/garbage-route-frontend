@@ -1,0 +1,23 @@
+
+version: '3.3'
+
+networks:
+  outside:
+    external:
+      name: garbage
+
+services:
+
+  web-garbage:
+    container_name: web-garbage
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - VIRTUAL_HOST=${HOST_GARBAGE_FRONTEND}
+      - VIRTUAL_PORT=3000
+    networks:
+      - outside
