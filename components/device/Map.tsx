@@ -35,7 +35,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
     <>
       <GoogleMap
         center={ mapCenter }
-        zoom={ 14 }
+        zoom={ 15 }
         mapContainerStyle={{ width: '100%', height: '100%' }}
         options={{
           fullscreenControl: false,
@@ -47,7 +47,9 @@ export const Map: FC<Props> = ({ containers = [] }) => {
         {/* Container Icons render */}
         { containers.length !== 0 && containers.map(({ fillLevel, lat, lng }, idx) => (
           <Marker
-            options={{ optimized: true }}
+            options={{
+              optimized: true,
+            }}
             position={{lat, lng}}
             key={ idx }
             icon={{
