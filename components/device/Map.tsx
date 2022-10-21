@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { GoogleMap, MarkerF, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader, DirectionsRenderer, Marker } from '@react-google-maps/api';
 
 import { Container, Coordinates } from '../../interfaces';
 import { calculateRoute } from '../../utils';
@@ -46,14 +46,33 @@ export const Map: FC<Props> = ({ containers = [] }) => {
         center={ center }
         zoom={ 14 }
         mapContainerStyle={{ width: '100%', height: '100%' }}
+        options={{
+          fullscreenControl: false,
+          streetViewControl: false,
+          mapTypeControl: false
+        }}        
       >
         {
           containers.length !== 0 && containers.map(({ fillLevel, lat, lng }, idx) => (
-            <MarkerF position={{lat, lng}} key={ idx } icon={ fillLevel === 'Rojo' ? `${ iconsRoute }/red-dot.png` : `${ iconsRoute }/green-dot.png` } />
+            <Marker options={{
+              optimized: true,
+            }} position={{lat, lng}} key={ idx } icon={{
+              url: fillLevel === 'Verde' ? `${ iconsRoute }/green-dot.png` : `${ iconsRoute }/red-dot.png`,
+              scaledSize: new google.maps.Size(50,50)
+            }} />
           ))
         }
-        <MarkerF position={ truck } icon={`${ iconsRoute }/truck.png`} />
-        { direction && <DirectionsRenderer directions={ direction } />}
+        <Marker position={ truck } options={{
+          
+        }} icon={{
+          url: `${ iconsRoute }/truck.png`,
+          scaledSize: new google.maps.Size(50,50)
+        }} />
+        { direction && <DirectionsRenderer options={{
+          markerOptions: {
+            visible: true,
+          } 
+        }} directions={ direction } />}
       </GoogleMap>
     </>
   );
