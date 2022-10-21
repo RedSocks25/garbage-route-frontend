@@ -25,7 +25,7 @@ export const DeviceList: FC<Props> = ({ devices = [] }) => {
               </ListItem>
             ))
           ) : (
-            [...Array(7)].map((idx) => (
+            [...Array(7)].map((u, idx) => (
               <ListItem key={ idx }>
                 <SkeletonCard />
               </ListItem>

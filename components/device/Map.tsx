@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { GoogleMap, MarkerF, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
 
 import { Container, Coordinates } from '../../interfaces';
+import { calculateRoute } from '../../utils';
 
 
 const iconsRoute = "http://maps.google.com/mapfiles/ms/icons";
@@ -12,11 +13,10 @@ const center: Coordinates = {
   lng: -77.04626663309747,
 }
 
-const pointsOfInteres: Coordinates[] = [
-  { lat: -12.082514011004939, lng: -77.05626663309747 },
-  { lat: -12.082514011004939, lng: -77.04626663309747 },
-  { lat: -12.092514011004939, lng: -77.04626663309747 },
-];
+const truck: Coordinates = {
+  lat: -12.102514011004939,
+  lng: -77.05626663309747,
+}
 
 interface Props {
   containers: Container[];
@@ -28,21 +28,10 @@ export const Map: FC<Props> = ({ containers = [] }) => {
 
   useEffect(() => {
     if (!isLoaded) return;
-    const calculateRoute = async() => {
-  
-      console.log('getting routes')
-      const directionService = new google.maps.DirectionsService();
-  
-      const results = await directionService.route({
-        origin: { lat: containers[0].lat, lng: containers[0].lng },
-        destination: { lat: containers[1].lat, lng: containers[1].lng },
-        travelMode: google.maps.TravelMode.DRIVING,
-      });
-  
-      setDirection(results);
+    const getDirections = async() => {
+      setDirection(await calculateRoute(containers, truck));
     }
-
-    calculateRoute();
+    getDirections();
   }, [containers]);
 
   const { isLoaded } = useJsApiLoader({
@@ -55,7 +44,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
     <>
       <GoogleMap
         center={ center }
-        zoom={ 15 }
+        zoom={ 14 }
         mapContainerStyle={{ width: '100%', height: '100%' }}
       >
         {
@@ -63,6 +52,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
             <MarkerF position={{lat, lng}} key={ idx } icon={ fillLevel === 'rojo' ? `${ iconsRoute }/red-dot.png` : `${ iconsRoute }/green-dot.png` } />
           ))
         }
+        <MarkerF position={ truck } icon={`${ iconsRoute }/truck.png`} />
         { direction && <DirectionsRenderer directions={ direction } />}
       </GoogleMap>
     </>
