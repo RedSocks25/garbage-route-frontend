@@ -46,10 +46,8 @@ export const calculateRoute = async(containers: Container[], truck: Coordinates)
 
 
 const orderByDistance = (containers: Container[], origin: Coordinates) => {
-
+  
   let auxContainers = [...containers];
-
-  console.log('Desordenados', auxContainers);
 
   // Bubble sort algorithm logic
   let i, j: number;
