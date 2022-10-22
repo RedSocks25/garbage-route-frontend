@@ -8,7 +8,6 @@ import { DeviceList, Map } from '../components/device';
 import { useSensors } from '../hooks';
 import { garbageApi } from '../apis';
 import { Container, GarbageData, Sensor } from '../interfaces';
-import { defaultContainers } from '../utils';
 
 
 const HomePage: NextPage = () => {
