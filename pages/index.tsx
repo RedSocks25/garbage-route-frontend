@@ -49,7 +49,7 @@ const HomePage: NextPage = () => {
 
       {/* Devices list section */}
       <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
-        <DeviceList devices={ sensors } />
+        <DeviceList devices={ sensors } containers={ containers } />
       </Grid>
 
       {/* Map section */}

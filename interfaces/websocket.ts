@@ -2,6 +2,8 @@ export interface Container {
   lat: number;
   lng: number;
   fillLevel: string;
+  value: number;
+  unit: string;
 }
 
 export interface Coordinates {

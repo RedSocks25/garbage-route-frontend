@@ -1,15 +1,18 @@
-import { Divider, Paper, Skeleton, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { Sensor } from '../../interfaces';
+
+import { Divider, Paper, Skeleton, Typography } from '@mui/material';
+
+import { Container } from '../../interfaces';
 
 
 interface Props {
-  sensor: Sensor;
+  container: Container;
   color?: string;
   isLoaded?: boolean;
+  id: number;
 }
 
-export const DeviceCard: FC<Props> = ({ sensor, color = '#ffffff', isLoaded = false }) => {
+export const ContainerCard: FC<Props> = ({ container, color = '000000', isLoaded = false, id }) => {
   return (
     <Paper
       elevation={ 0 }
@@ -18,14 +21,14 @@ export const DeviceCard: FC<Props> = ({ sensor, color = '#ffffff', isLoaded = fa
         width: '100%',
         margin: 0,
         borderRadius: 1,
-        backgroundColor: `#${ color }`
+        backgroundColor: `#${ container.fillLevel === 'Rojo' ? 'FA3A3A' : '25F858' }`
       }}
     >
       { isLoaded ? (
         <React.Fragment>
-          <Typography variant='subtitle1' color='white'>{ sensor.type }</Typography>
+          <Typography variant='subtitle1' color='white'>{ `Contenedor ${ id + 1 }` }</Typography>
           <Divider />
-          <Typography variant='h6' color='white'>{ `${ sensor.type !== 'Nivel de luminosidad' ? sensor.value : '' } ${ sensor.unit }` }</Typography>
+          <Typography variant='h6' color='white'>{ `${ container.value } ${ container.unit }` }</Typography>
         </React.Fragment>
       ) : (
         <React.Fragment>
