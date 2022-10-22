@@ -1,6 +1,6 @@
 import { Container, Coordinates } from '../interfaces/websocket';
 
-export const calculateRoute = async(containers: Container[], truck: Coordinates) => {
+export const calculateRoute = async(containers: Container[], origin: Coordinates) => {
 
   // Getting just the full containers coordinates
   let fullContainers: Container[] = containers.filter((container) => {
@@ -10,32 +10,27 @@ export const calculateRoute = async(containers: Container[], truck: Coordinates)
   // If we have no full containers, then we dont make a route planification
   if (fullContainers.length === 0) return null;
 
-
   // Defines waypoints in case we have two or more containers full
   let waypoints: google.maps.DirectionsWaypoint[] = [];
-  if (fullContainers.length >= 2) { 
+  if (fullContainers.length >= 1) { 
     
-    console.log(fullContainers);
-    fullContainers = orderByDistance(fullContainers, truck);
-    const numContainers: number = fullContainers.length;
+    // Order the points by distance, from closest to further
+    fullContainers = orderByDistance(fullContainers, origin);
 
     // We use as waypoints all the containers that are not the lastone in the array
-    waypoints = [...Array(numContainers)].map((u, idx) => {
-      const { lat, lng } = fullContainers[idx];
+    waypoints = fullContainers.map((container) => {
+      const { lat, lng } = container;
       return {
         location: new google.maps.LatLng(lat, lng),
         stopover: true,
       };
-    })
+    });
   }
-
-  // Set as destination the last container in the full containers array
-  const destination: Coordinates = fullContainers[fullContainers.length -1];
 
   // Define the route based in all the previous process
   const route = new google.maps.DirectionsService().route({
-    origin: truck,
-    destination: destination,
+    origin: origin,
+    destination: origin,
     waypoints: [...waypoints],
     optimizeWaypoints: true,
     travelMode: google.maps.TravelMode.DRIVING,
