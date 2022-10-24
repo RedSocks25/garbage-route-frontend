@@ -49,6 +49,12 @@ export const Map: FC<Props> = ({ containers = [] }) => {
           <Marker
             options={{
               optimized: true,
+              label: {
+               text: `Contenedor ${ idx + 1 }`,
+               color: '#000000',
+               fontSize: '15px',
+               fontWeight: 'bold',
+              }
             }}
             position={{lat, lng}}
             key={ idx }

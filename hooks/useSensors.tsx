@@ -62,15 +62,12 @@ export const useSensors = (url: string) => {
 
   // Ping Pong logic to stay connected to the Websocket
   useEffect(() => {
-    // console.log('Entrando a logica ping pong');
     
+    // If socket not connected, there is no attempts to mantain an open connection since it is not there
     if (!isConnected) return;
 
-    // console.log('Tenemos websocket intanciado');
-
     const interval = setInterval(() => {
-      // console.log('sending pong message');
-      
+      // Send a PONG event to the ws server to keep the connection alive while there is no transfer of sensors data
       socket!.send(JSON.stringify({
         event: 'ping',
         data: 'true',
