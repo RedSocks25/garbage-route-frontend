@@ -37,8 +37,6 @@ export const useSensors = (url: string) => {
       // Listen to any message events
       socket.onmessage = (e: MessageEvent) => {
 
-        // console.log(e);
-
         // Get data from the websocket response
         const { data, event } = JSON.parse(e.data) as WebsocketEvent;
   

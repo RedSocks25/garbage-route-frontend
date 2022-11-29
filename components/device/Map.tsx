@@ -1,9 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { GoogleMap, useJsApiLoader, DirectionsRenderer, Marker } from '@react-google-maps/api';
 
-import { Container } from '../../interfaces';
-import { calculateRoute, mapCenter, routeOrigin, greenDotIcon, redDotIcon, truckIcon } from '../../utils';
+import { ContainersContext } from '../../contexts';
+
+import { MapMarker } from './MapMarker';
+
+import { Container, Coordinates } from '../../interfaces';
+import { calculateRoute, mapCenter, routeOrigin, truckIcon } from '../../utils';
 
 
 interface Props {
@@ -13,22 +17,28 @@ interface Props {
 export const Map: FC<Props> = ({ containers = [] }) => {
 
   const [direction, setDirection] = useState<google.maps.DirectionsResult | null>(null);
+  const { showContainers } = useContext(ContainersContext);
 
-  // Calculate the best route every time the ws containers data changes
+  //* Calculate the best route every time the ws containers data changes
   useEffect(() => {
-    if (!isLoaded) return;
+
+    // Verify if Google Maps is loaded, or there is no vosibility for the containers
+    if (!isLoaded || !showContainers) return;
     const getDirections = async() => {
+      
+      // Refresh the route and save a new one just calculated
+      setDirection(null);
       setDirection(await calculateRoute(containers, routeOrigin));
     }
     getDirections();
-  }, [containers]);
+  }, [containers, showContainers]);
 
-  // Connection with Google Maps API service. Return if the app is connected.
+  //* Connection with Google Maps API service. Return if the app is connected.
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY!,
   });
   
-  // If not connected to Google Maps API service, then return other render
+  //* If not connected to Google Maps API service, then return other render
   if (!isLoaded) return <></>;
   
   return (
@@ -45,25 +55,28 @@ export const Map: FC<Props> = ({ containers = [] }) => {
       >
 
         {/* Container Icons render */}
-        { containers.length !== 0 && containers.map(({ fillLevel, lat, lng }, idx) => (
-          <Marker
-            options={{
-              optimized: true,
-              label: {
-               text: `Contenedor ${ idx + 1 }`,
-               color: '#000000',
-               fontSize: '15px',
-               fontWeight: 'bold',
-              }
-            }}
-            position={{lat, lng}}
-            key={ idx }
-            icon={{
-              url: fillLevel === 'Verde' ? greenDotIcon : redDotIcon,
-              scaledSize: new google.maps.Size(50,50)
-            }} 
-          />
-        ))}
+        { containers.length !== 0 && (
+          <>
+            { showContainers ? (
+              containers.map(({ fillLevel, lat, lng }, idx) => (
+                <MapMarker
+                  labelText={ `Contenedor ${ idx + 1 }` }
+                  fillLevel={ fillLevel }
+                  position={{ lat, lng } as Coordinates}
+                />
+              ))
+            ) : (
+              <MapMarker
+                labelText={ `Contenedor ${ 1 }` }
+                fillLevel={ containers[0].fillLevel }
+                position={{
+                  lat: containers[0].lat,
+                  lng: containers[0].lng,
+                } as Coordinates}
+              />
+            )}
+          </>
+        )}
 
         {/* Truck or origin of the route iconn render */}
         <Marker
@@ -75,7 +88,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
         />
 
         {/* Route renderer for directions */}
-        { direction &&
+        { direction && showContainers &&
           <DirectionsRenderer
             options={{
               markerOptions: {
@@ -83,7 +96,9 @@ export const Map: FC<Props> = ({ containers = [] }) => {
               },
               preserveViewport: true,
             }}
-            directions={ direction } />}
+            directions={ direction }
+          />
+        }
 
       </GoogleMap>
     </>

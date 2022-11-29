@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 
@@ -6,6 +6,7 @@ import { Sensor } from '../../interfaces';
 import { DeviceCard, ContainerCard } from './';
 import { colors } from '../../utils';
 import { Container } from '../../interfaces/websocket';
+import { ContainersContext } from '../../contexts/ContainersContext';
 
 
 interface Props {
@@ -17,6 +18,7 @@ export const DeviceList: FC<Props> = ({ devices = [], containers = [] }) => {
 
   // Stores a state to indicate if the is data loaded. Is false meanwhile the websocket is not sending any information
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const { showContainers } = useContext(ContainersContext);
 
   useEffect(() => {
     
@@ -37,14 +39,21 @@ export const DeviceList: FC<Props> = ({ devices = [], containers = [] }) => {
             </ListItem>
           ))
         }
-        <Divider sx={{ backgroundColor: '#000000', marginY: 3 }} />
-        <Typography variant='h6' component='h6' color='white' sx={{ marginX: 2 }}>Contenedores</Typography>
+
         {
-          containers.map(( container, idx ) => (
-            <ListItem key={ idx }>
-              <ContainerCard container={ container } isLoaded={ isLoaded } id={ idx } />
-            </ListItem>
-          ))
+          showContainers && (
+            <>
+              <Divider sx={{ backgroundColor: '#000000', marginY: 3 }} />              
+              <Typography variant='h6' component='h6' color='white' sx={{ marginX: 2 }}>Contenedores</Typography>
+              {
+                containers.map(( container, idx ) => (
+                  <ListItem key={ idx }>
+                    <ContainerCard container={ container } isLoaded={ isLoaded } id={ idx } />
+                  </ListItem>
+                ))
+              }
+            </>
+          )
         }
 
       </List>
