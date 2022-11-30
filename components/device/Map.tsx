@@ -63,6 +63,7 @@ export const Map: FC<Props> = ({ containers = [] }) => {
                   labelText={ `Contenedor ${ idx + 1 }` }
                   fillLevel={ fillLevel }
                   position={{ lat, lng } as Coordinates}
+                  key={ idx }
                 />
               ))
             ) : (
