@@ -56,7 +56,7 @@ const HomePage: NextPage = () => {
 
       {/* Devices list section */}
       <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
-        <DeviceList devices={ showContainers ? sensors : filteredSensors } containers={ containers } />
+        <DeviceList devices={ showContainers ? filteredSensors : sensors } containers={ containers } />
       </Grid>
 
       {/* Map section */}

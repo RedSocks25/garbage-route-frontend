@@ -7,7 +7,7 @@ export interface ContainersState {
 }
 
 const Containers_INITIAL_STATE: ContainersState = {
-  showContainers: true,
+  showContainers: false,
 }
 
 export const ContainersProvider: FC<PropsWithChildren> = ({ children }) => {
