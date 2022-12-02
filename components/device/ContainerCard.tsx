@@ -7,12 +7,11 @@ import { Container } from '../../interfaces';
 
 interface Props {
   container: Container;
-  color?: string;
   isLoaded?: boolean;
   id: number;
 }
 
-export const ContainerCard: FC<Props> = ({ container, color = '000000', isLoaded = false, id }) => {
+export const ContainerCard: FC<Props> = ({ container, isLoaded = false, id }) => {
   return (
     <Paper
       elevation={ 0 }
@@ -21,7 +20,7 @@ export const ContainerCard: FC<Props> = ({ container, color = '000000', isLoaded
         width: '100%',
         margin: 0,
         borderRadius: 1,
-        backgroundColor: `#${ container.fillLevel === 'Rojo' ? 'FA3A3A' : '25F858' }`
+        backgroundColor: `#${ container.fillLevel === 'Rojo' ? 'FA3A3A' : '3ED863' }`
       }}
     >
       { isLoaded ? (

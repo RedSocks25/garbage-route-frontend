@@ -8,16 +8,19 @@ import { lightTheme } from '../themes';
 
 import '../styles/globals.css';
 import { DashboardLayout } from '../components/layouts';
+import { ContainersProvider } from '../contexts/ContainersProvider';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={ lightTheme }>
-      <CssBaseline />
-      <DashboardLayout title='Dashboard'>
-        <Component {...pageProps} />
-      </DashboardLayout>
-    </ThemeProvider>
+    <ContainersProvider>
+      <ThemeProvider theme={ lightTheme }>
+        <CssBaseline />
+        <DashboardLayout title='Dashboard'>
+          <Component {...pageProps} />
+        </DashboardLayout>
+      </ThemeProvider>
+    </ContainersProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import { Container, Coordinates } from '../interfaces/websocket';
 
+
 export const calculateRoute = async(containers: Container[], origin: Coordinates) => {
 
   // Getting just the full containers coordinates

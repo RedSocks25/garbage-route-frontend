@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import type { NextPage } from 'next';
 
@@ -8,6 +8,8 @@ import { DeviceList, Map } from '../components/device';
 import { useSensors } from '../hooks';
 import { garbageApi } from '../apis';
 import { Container, GarbageData, Sensor } from '../interfaces';
+import { filterSensors } from '../utils';
+import { ContainersContext } from '../contexts/ContainersContext';
 
 
 const HomePage: NextPage = () => {
@@ -16,7 +18,10 @@ const HomePage: NextPage = () => {
   const { containersData, sensorsData, isConnected } = useSensors(process.env.NEXT_PUBLIC_WS_URL!);
 
   const [sensors, setSensors] = useState<Sensor[]>([]);
+  const [filteredSensors, setFilteredSensors] = useState<Sensor[]>([]);
   const [containers, setContainers] = useState<Container[]>([]);
+
+  const { showContainers } = useContext(ContainersContext);
 
   // When is connected get the last data from the database
   useEffect(() => {
@@ -26,6 +31,8 @@ const HomePage: NextPage = () => {
     const fecthInitialData = async() => {
       try {
         const { data } = await garbageApi.get<GarbageData>('sensor');
+
+        setFilteredSensors(filterSensors([...data.sensors]))
         setSensors(data.sensors);
         setContainers(data.containers);
 
@@ -49,7 +56,7 @@ const HomePage: NextPage = () => {
 
       {/* Devices list section */}
       <Grid item sm={2} sx={{ width: '100vw', height: 'calc(100vh - 60px)' }}>
-        <DeviceList devices={ sensors } containers={ containers } />
+        <DeviceList devices={ showContainers ? filteredSensors : sensors } containers={ containers } />
       </Grid>
 
       {/* Map section */}
