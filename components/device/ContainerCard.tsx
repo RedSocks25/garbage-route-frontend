@@ -7,12 +7,11 @@ import { Container } from '../../interfaces';
 
 interface Props {
   container: Container;
-  color?: string;
   isLoaded?: boolean;
   id: number;
 }
 
-export const ContainerCard: FC<Props> = ({ container, color = '000000', isLoaded = false, id }) => {
+export const ContainerCard: FC<Props> = ({ container, isLoaded = false, id }) => {
   return (
     <Paper
       elevation={ 0 }
