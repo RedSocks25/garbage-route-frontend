@@ -21,7 +21,7 @@ export const ContainerCard: FC<Props> = ({ container, color = '000000', isLoaded
         width: '100%',
         margin: 0,
         borderRadius: 1,
-        backgroundColor: `#${ container.fillLevel === 'Rojo' ? 'FA3A3A' : '25F858' }`
+        backgroundColor: `#${ container.fillLevel === 'Rojo' ? 'FA3A3A' : '3ED863' }`
       }}
     >
       { isLoaded ? (

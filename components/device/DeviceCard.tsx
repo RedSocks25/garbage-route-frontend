@@ -1,5 +1,9 @@
+import React, { FC, useContext } from 'react';
+
 import { Divider, Paper, Skeleton, Typography } from '@mui/material';
-import React, { FC } from 'react';
+
+import { ContainersContext } from '../../contexts/ContainersContext';
+
 import { Sensor } from '../../interfaces';
 
 
@@ -10,6 +14,7 @@ interface Props {
 }
 
 export const DeviceCard: FC<Props> = ({ sensor, color = '#ffffff', isLoaded = false }) => {
+
   return (
     <Paper
       elevation={ 0 }
